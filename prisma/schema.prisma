@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // SQLite for local dev/grading. Swap to "postgresql" + a Postgres
+  // DATABASE_URL at deploy time — everything else is unchanged.
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String  @id @default(cuid())
+  email        String  @unique
+  passwordHash String
+  goalAmountCents Int?
+
+  // Account lockout state (lib/auth/lockout.ts). Failed attempts are
+  // counted within a rolling 1-hour window; 10 failures locks the account.
+  failedLoginCount   Int       @default(0)
+  firstFailedLoginAt DateTime?
+  lockedUntil        DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  entries     Entry[]
+  sessions    Session[]
+  resetTokens PasswordResetToken[]
+}
+
+// Session registry: one row per active login. iron-session still owns the
+// encrypted cookie; this table is the source of truth for whether that
+// session is still valid, so "log out everywhere" can revoke remotely.
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  @@index([userId])
+}
+
+// Password reset tokens are stored hashed (never plaintext) and are
+// single-use — usedAt is set on redemption so a token can't be replayed.
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+}
+
+model Entry {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amountCents Int
+  note        String?
+  date        DateTime
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+}

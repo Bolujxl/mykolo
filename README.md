@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Koloclay
 
-## Getting Started
+A digital kolo — the everyday savings-pot practice, rebuilt as a small web
+app. The feature surface (entries, total saved, a goal progress bar) is
+deliberately small; the auth surface is where the effort went: rate
+limiting, account lockout, token-based password reset, remote session
+revocation, CSRF protection, and error messages that never confirm whether
+an email is registered.
 
-First, run the development server:
+## Stack
+
+Next.js 15 (App Router, TypeScript), Tailwind CSS v4, Prisma + SQLite,
+bcryptjs, iron-session, Zod, Resend.
+
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env   # then fill in real secrets — see below
+npx prisma migrate dev
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+See `.env.example`. Generate real secrets rather than using the placeholders:
 
-## Learn More
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
 
-To learn more about Next.js, take a look at the following resources:
+- `SESSION_SECRET` — encrypts the iron-session cookie. 32+ random chars.
+- `CSRF_SECRET` — signs the CSRF double-submit cookie. Falls back to
+  `SESSION_SECRET` if unset, but a distinct value is better key hygiene.
+- `RESEND_API_KEY` — optional. Password reset emails always log to the
+  console as well, so this can be left blank for local dev/grading.
+- `DATABASE_URL` — SQLite file for local dev (`file:./dev.db`).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Known gaps (deliberate, documented in the project brief)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Rate limiting is in-memory** (`src/lib/auth/rate-limit.ts`). It's behind
+  a `RateLimiter` interface so swapping in Upstash's Redis-backed limiter is
+  a one-file change, but as shipped the counters live in process memory and
+  won't be consistent across multiple server instances or serverless
+  function invocations. Fine for local dev and a single-process deployment;
+  close this gap before any multi-instance production deploy.
+- **SQLite, not Postgres.** `prisma/schema.prisma` uses SQLite for local
+  dev/grading. Switching to Postgres at deploy time is a one-line change to
+  the `datasource` block plus a `DATABASE_URL` pointing at Postgres — the
+  rest of the schema is unaffected.
+- **No "active sessions" UI.** The `Session` table tracks one row per login
+  so "log out everywhere" can revoke them all, but there's no settings page
+  listing individual sessions with device/location info. The schema doesn't
+  block adding that later; it's just out of scope for this pass.
 
-## Deploy on Vercel
+## Auth surface
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+All of this lives under `src/lib/auth/`:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `session.ts` — iron-session config (HTTP-only, secure in production,
+  `SameSite=Lax`, 7-day expiry).
+- `sessions.ts` — the `Session` registry table. Every authenticated request
+  re-checks that its session row still exists; "log out everywhere" deletes
+  every row for the user, not just the local cookie.
+- `password.ts` — bcrypt hashing + the 12-character/variety password schema.
+- `schemas.ts` — Zod schemas for every auth and entry input, enforced
+  server-side.
+- `guards.ts` — `requireAuth`/`requireGuest` (Server Components, redirect-
+  based) and `requireAuthApi` (Route Handlers, 401-based).
+- `rate-limit.ts` — 5 login attempts per IP per 15 minutes.
+- `lockout.ts` — locks an account for an hour after 10 failed attempts
+  within a rolling hour; resetting your password is the unlock path.
+- `reset-token.ts` — single-use, hashed password reset tokens (30 min TTL).
+- `csrf.ts` — signed double-submit cookie CSRF protection, verified on every
+  mutating route (`middleware.ts` guarantees the cookie exists before any
+  page renders).
+
+Login and signup never reveal whether a given email is registered: signup
+returns the same message either way without creating a duplicate account,
+and login always returns a generic "Invalid email or password." unless the
+password is actually correct — only then does a locked account get a
+specific, actionable message, so the lockout state itself can't be used to
+enumerate which emails have accounts.

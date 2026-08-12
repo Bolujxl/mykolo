@@ -11,7 +11,7 @@ import "server-only";
 // origin policy), so they can't produce a matching header even if they can
 // trigger a cross-site POST.
 
-export const CSRF_COOKIE = "koloclay_csrf";
+export const CSRF_COOKIE = "kolovault_csrf";
 export const CSRF_HEADER = "x-csrf-token";
 
 function getCsrfSecret(): string {

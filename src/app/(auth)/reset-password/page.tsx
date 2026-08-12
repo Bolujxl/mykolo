@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
 import { requireGuest } from "@/lib/auth/guards";
-import { AuthCard } from "@/components/AuthCard";
+import { AuthSplitLayout } from "@/components/AuthSplitLayout";
 import { ResetRequestForm } from "@/components/auth/ResetRequestForm";
 
-export const metadata: Metadata = { title: "Reset password — Koloclay" };
+export const metadata: Metadata = { title: "Reset password — KoloVault" };
 
 export default async function ResetPasswordPage() {
   await requireGuest();
 
   return (
-    <AuthCard
-      title="Reset your password"
-      subtitle="We'll email you a link if that address has an account."
+    <AuthSplitLayout
+      title="Forgot your password?"
+      subtitle="No worries. Tell us your email and we'll send a link if we find an account."
     >
       <ResetRequestForm />
-    </AuthCard>
+    </AuthSplitLayout>
   );
 }

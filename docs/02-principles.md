@@ -1,6 +1,6 @@
-# Koloclay Auth: Principles Map
+# KoloVault Auth: Principles Map
 
-This document maps real code from the Koloclay codebase to six named security
+This document maps real code from the KoloVault codebase to six named security
 principles. Each section defines the principle in plain language, shows
 concrete code references that demonstrate it (or fail to), and honestly notes
 where the implementation is partial. The point is to be able to point at a
@@ -130,7 +130,7 @@ defense is in the combination.
 
 **In this codebase:**
 
-Koloclay stacks these independent layers against a credential-guessing
+KoloVault stacks these independent layers against a credential-guessing
 attacker. If an attacker evades any one of them, the next is still in their
 way:
 
@@ -197,7 +197,7 @@ way:
 
 5. **CSRF protection** — `src/lib/auth/csrf.ts`: a signed double-submit cookie
    prevents cross-site request forgery even if the attacker knows the victim is
-   logged into Koloclay. The CSRF token in the cookie is signed with HMAC, so
+   logged into KoloVault. The CSRF token in the cookie is signed with HMAC, so
    while the browser sends the cookie on cross-site requests, a malicious site
    can't read it (same-origin policy) to produce the matching header:
 
@@ -463,7 +463,7 @@ approach.
   is wrong:
 
   ```typescript
-  const DUMMY_HASH = bcrypt.hashSync("koloclay-timing-normalization", 12);
+  const DUMMY_HASH = bcrypt.hashSync("kolovault-timing-normalization", 12);
   ```
 
   Without this, an attacker could measure response times: a fast rejection
@@ -713,7 +713,7 @@ defaults to secure and requires explicit effort to be unsafe.
   protected, so the attacker couldn't steal the session itself. The CSRF
   cookie's 7-day `maxAge` also means a stolen CSRF token could be used until
   the browser naturally discards it (or the user clears cookies). This is
-  inherent to the double-submit pattern, not a Koloclay-specific design choice,
+  inherent to the double-submit pattern, not a KoloVault-specific design choice,
   but it means the default isn't as strictly secure as a fully httpOnly token
   would be.
 

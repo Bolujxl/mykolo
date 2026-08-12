@@ -1,4 +1,4 @@
-# Koloclay
+# KoloVault
 
 A digital kolo — the everyday savings-pot practice, rebuilt as a small web
 app. The feature surface (entries, total saved, a goal progress bar) is

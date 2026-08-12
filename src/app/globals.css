@@ -1,50 +1,77 @@
 @import "tailwindcss";
 
-/*
- * Koloclay design tokens — Material 3 structure, terracotta + gold.
- * Gold (secondary) is reserved for money-growth moments only: total-saved
- * figure, goal-reached state, progress bar fill, coin-drop micro-interaction.
- * It must never be used as a general UI accent — terracotta (primary) does
- * all standard interface work.
- */
+/* KoloVault tokens: dark-first neutral gray scale, green primary, gold accent reserved for money-growth moments, custom success role. */
 :root {
-  --primary: #c1602e;
-  --on-primary: #fffbf6;
-  --primary-container: #f5dcc8;
-  --on-primary-container: #6b2e10;
+  --primary: #6fbf94;
+  --on-primary: #073b22;
+  --primary-container: #0f5132;
+  --on-primary-container: #cfeedd;
 
-  --secondary: #d4a24c;
-  --on-secondary: #3d2a0a;
-  --secondary-container: #f0dcb0;
-  --on-secondary-container: #4a3410;
+  --secondary: #d9b75a;
+  --on-secondary: #3d2e00;
+  --secondary-container: #574200;
+  --on-secondary-container: #f5e3ac;
 
-  --tertiary: #4a6fa5;
-  --on-tertiary: #ffffff;
+  --tertiary: #a8c7f0;
+  --on-tertiary: #0a2a4d;
+  --tertiary-container: #24466d;
+  --on-tertiary-container: #d4e3ff;
 
-  --background: #faf3ea;
-  --on-background: #2e241c;
+  --error: #f2938a;
+  --on-error: #4a0e0a;
+  --error-container: #631a14;
+  --on-error-container: #f9dedc;
 
-  --surface: #ffffff;
-  --surface-variant: #f0e4d6;
-  --on-surface-variant: #7a6a58;
+  --success: #7ed9a6;
+  --on-success: #04261a;
+  --success-container: #145c39;
+  --on-success-container: #c7edd7;
 
-  --outline: #e0cfb8;
-  --error: #b3261e;
-  --on-error: #fffbf6;
+  --background: #0c0f0d;
+  --on-background: #e7eae8;
+
+  --surface: #151917;
+  --surface-variant: #1f2422;
+  --on-surface-variant: #93a09a;
+
+  --outline: #2a302d;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
-    --primary: #e08a52;
-    --on-primary: #2e1200;
-    --background: #201812;
-    --on-background: #f0e4d6;
-    --surface: #2b2119;
-    --surface-variant: #382c22;
-    --on-surface-variant: #b3a290;
-    --outline: #4a3c2e;
-    --error: #f2938a;
-    --on-error: #4a0e0a;
+    --primary: #2e6b4f;
+    --on-primary: #ffffff;
+    --primary-container: #cfeedd;
+    --on-primary-container: #04281a;
+
+    --secondary: #b8912e;
+    --on-secondary: #3d2e00;
+    --secondary-container: #f5e3ac;
+    --on-secondary-container: #3d2e00;
+
+    --tertiary: #3e5f8a;
+    --on-tertiary: #ffffff;
+    --tertiary-container: #d4e3ff;
+    --on-tertiary-container: #001c3a;
+
+    --error: #b3261e;
+    --on-error: #ffffff;
+    --error-container: #f9dedc;
+    --on-error-container: #410e0b;
+
+    --success: #268a57;
+    --on-success: #ffffff;
+    --success-container: #c7edd7;
+    --on-success-container: #04261a;
+
+    --background: #f3f5f3;
+    --on-background: #171a18;
+
+    --surface: #ffffff;
+    --surface-variant: #e6eae7;
+    --on-surface-variant: #5b625d;
+
+    --outline: #d7dbd8;
   }
 }
 
@@ -61,6 +88,8 @@
 
   --color-tertiary: var(--tertiary);
   --color-on-tertiary: var(--on-tertiary);
+  --color-tertiary-container: var(--tertiary-container);
+  --color-on-tertiary-container: var(--on-tertiary-container);
 
   --color-background: var(--background);
   --color-on-background: var(--on-background);
@@ -70,8 +99,16 @@
   --color-on-surface-variant: var(--on-surface-variant);
 
   --color-outline: var(--outline);
+
   --color-error: var(--error);
   --color-on-error: var(--on-error);
+  --color-error-container: var(--error-container);
+  --color-on-error-container: var(--on-error-container);
+
+  --color-success: var(--success);
+  --color-on-success: var(--on-success);
+  --color-success-container: var(--success-container);
+  --color-on-success-container: var(--on-success-container);
 
   --font-sans: var(--font-sora);
   --font-mono: var(--font-plex-mono);

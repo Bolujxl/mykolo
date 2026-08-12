@@ -66,7 +66,7 @@ export function LoginForm() {
           Forgot your password?
         </Link>
         <p>
-          New to Koloclay?{" "}
+          New to KoloVault?{" "}
           <Link href="/signup" className="font-medium text-primary">
             Create an account
           </Link>

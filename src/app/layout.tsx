@@ -14,7 +14,7 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Koloclay",
+  title: "KoloVault",
   description: "A digital kolo — drop a coin today, find a sum at Christmas.",
 };
 

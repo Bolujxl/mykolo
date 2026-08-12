@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { TextField } from "@/components/ui/TextField";
 import { Button } from "@/components/ui/Button";
+import { PasswordStrengthMeter } from "@/components/ui/PasswordStrengthMeter";
 import { apiFetch } from "@/lib/api-client";
 
 export function ResetConfirmForm({ token }: { token: string }) {
@@ -45,7 +46,7 @@ export function ResetConfirmForm({ token }: { token: string }) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-3">
         <TextField
           id="password"
           label="New password"
@@ -56,9 +57,7 @@ export function ResetConfirmForm({ token }: { token: string }) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <p className="text-xs text-on-surface-variant">
-          At least 12 characters, mixing 3 of: lowercase, uppercase, numbers, symbols.
-        </p>
+        <PasswordStrengthMeter password={password} />
       </div>
 
       {error && <p className="text-sm text-error">{error}</p>}

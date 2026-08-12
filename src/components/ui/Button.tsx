@@ -6,7 +6,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const VARIANTS: Record<string, string> = {
   primary: "bg-primary text-on-primary hover:opacity-90",
-  ghost: "border border-outline text-on-background bg-transparent hover:bg-surface-variant",
+  ghost: "border border-outline/50 text-on-background bg-transparent hover:bg-surface-variant",
   danger: "border border-error text-error bg-transparent hover:bg-error hover:text-on-error",
 };
 

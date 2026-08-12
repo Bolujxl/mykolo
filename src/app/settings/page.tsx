@@ -5,7 +5,7 @@ import { AppHeader } from "@/components/AppHeader";
 import { GoalForm } from "@/components/settings/GoalForm";
 import { LogoutEverywhereButton } from "@/components/settings/LogoutEverywhereButton";
 
-export const metadata: Metadata = { title: "Settings — Koloclay" };
+export const metadata: Metadata = { title: "Settings — KoloVault" };
 
 export default async function SettingsPage() {
   const { userId } = await requireAuth();
@@ -30,7 +30,7 @@ export default async function SettingsPage() {
         <section className="rounded-2xl border border-outline bg-surface p-6">
           <h2 className="mb-1 font-medium text-on-background">Sessions</h2>
           <p className="mb-4 text-sm text-on-surface-variant">
-            Sign out of Koloclay everywhere you&apos;re logged in, including this device.
+            Sign out of KoloVault everywhere you&apos;re logged in, including this device.
           </p>
           <LogoutEverywhereButton />
         </section>

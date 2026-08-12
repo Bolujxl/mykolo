@@ -8,7 +8,7 @@ export function AppHeader() {
       <div className="mx-auto flex w-full max-w-2xl items-center justify-between px-4 py-4">
         <Link href="/dashboard" className="flex items-center gap-2">
           <Logo size={26} />
-          <span className="text-lg font-semibold text-on-background">Koloclay</span>
+          <span className="text-lg font-semibold text-on-background">KoloVault</span>
         </Link>
         <nav className="flex items-center gap-4 text-sm">
           <Link href="/dashboard" className="text-on-background hover:text-primary">

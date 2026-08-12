@@ -21,7 +21,7 @@ if (!process.env.SESSION_SECRET || process.env.SESSION_SECRET.length < 32) {
 
 export const sessionOptions = {
   password: process.env.SESSION_SECRET,
-  cookieName: "koloclay_session",
+  cookieName: "kolovault_session",
   ttl: SESSION_TTL_SECONDS,
   cookieOptions: {
     httpOnly: true,

@@ -18,7 +18,7 @@ export function GoalProgress({
         <span className="text-on-surface-variant">Goal: {formatCurrency(goalCents)}</span>
         <span className="font-mono text-on-surface-variant">{pct}%</span>
       </div>
-      <div className="h-3 w-full overflow-hidden rounded-full bg-secondary-container">
+      <div className="h-3 w-full overflow-hidden rounded-full bg-surface-variant">
         <div
           className="h-full rounded-full bg-secondary transition-[width] duration-500"
           style={{ width: `${pct}%` }}

@@ -17,7 +17,7 @@ import { loginRateLimiter, getClientIp } from "@/lib/auth/rate-limit";
 // Precomputed once so a lookup for a nonexistent email still pays the cost
 // of a bcrypt compare — keeps response timing from leaking whether the
 // email exists in the system.
-const DUMMY_HASH = bcrypt.hashSync("koloclay-timing-normalization", 12);
+const DUMMY_HASH = bcrypt.hashSync("kolovault-timing-normalization", 12);
 
 const GENERIC_INVALID = NextResponse.json(
   { error: "invalid_credentials", message: "Invalid email or password." },

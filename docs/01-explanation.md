@@ -1,4 +1,4 @@
-# Koloclay Auth: The ELI7 Read-Through
+# KoloVault Auth: The ELI7 Read-Through
 
 This document is the comprehension pass — written after the build, for the
 person who directed that build, so that the mechanisms inside it are actually
@@ -74,7 +74,7 @@ plain-English definition here so it doesn't need to be redefined inline.
 
 ## The auth flow, briefly
 
-Koloclay is a financial savings tracker. You sign up, log in, and manage
+KoloVault is a financial savings tracker. You sign up, log in, and manage
 entries on a dashboard. The auth system that gates all of this lives in
 `src/lib/auth/` and `src/app/api/auth/`, and it follows a standard pattern
 that should feel familiar if you've used any modern web app.
@@ -915,23 +915,23 @@ export async function sendPasswordResetEmail(
   email: string,
   resetUrl: string
 ): Promise<void> {
-  console.log(`[koloclay] Password reset link for ${email}: ${resetUrl}`);
+  console.log(`[kolovault] Password reset link for ${email}: ${resetUrl}`);
 
   if (!resend) return;
 
   try {
     await resend.emails.send({
-      from: process.env.EMAIL_FROM ?? "Koloclay <onboarding@resend.dev>",
+      from: process.env.EMAIL_FROM ?? "KoloVault <onboarding@resend.dev>",
       to: email,
-      subject: "Reset your Koloclay password",
+      subject: "Reset your KoloVault password",
       html: `
-        <p>Someone requested a password reset for this Koloclay account.</p>
+        <p>Someone requested a password reset for this KoloVault account.</p>
         <p><a href="${resetUrl}">Reset your password</a></p>
         <p>This link expires in 30 minutes. If you didn't request this, you can safely ignore this email.</p>
       `,
     });
   } catch (error) {
-    console.error("[koloclay] Failed to send password reset email via Resend:", error);
+    console.error("[kolovault] Failed to send password reset email via Resend:", error);
   }
 }
 ```

@@ -13,7 +13,7 @@ export function TextField({ label, error, id, className, ...rest }: TextFieldPro
       </label>
       <input
         id={id}
-        className={`rounded-lg border border-outline bg-surface-variant px-3 py-2.5 text-on-background placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-primary ${className ?? ""}`}
+        className={`rounded-lg border border-outline/50 bg-surface-variant px-3 py-2.5 text-on-background placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-primary ${className ?? ""}`}
         aria-invalid={!!error}
         aria-describedby={error ? `${id}-error` : undefined}
         {...rest}

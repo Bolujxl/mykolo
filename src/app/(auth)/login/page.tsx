@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import { requireGuest } from "@/lib/auth/guards";
-import { AuthCard } from "@/components/AuthCard";
+import { AuthSplitLayout } from "@/components/AuthSplitLayout";
 import { LoginForm } from "@/components/auth/LoginForm";
 
-export const metadata: Metadata = { title: "Log in — Koloclay" };
+export const metadata: Metadata = { title: "Log in — KoloVault" };
 
 export default async function LoginPage() {
   await requireGuest();
 
   return (
-    <AuthCard title="Welcome back" subtitle="Log in to keep watching your kolo grow.">
+    <AuthSplitLayout title="Welcome back" subtitle="Your kolo's right where you left it.">
       <LoginForm />
-    </AuthCard>
+    </AuthSplitLayout>
   );
 }

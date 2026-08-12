@@ -8,7 +8,7 @@ import { AddEntryForm } from "@/components/dashboard/AddEntryForm";
 import { EntryList } from "@/components/dashboard/EntryList";
 import { GoalProgress } from "@/components/dashboard/GoalProgress";
 
-export const metadata: Metadata = { title: "Dashboard — Koloclay" };
+export const metadata: Metadata = { title: "Dashboard — KoloVault" };
 
 export default async function DashboardPage() {
   const { userId } = await requireAuth();
